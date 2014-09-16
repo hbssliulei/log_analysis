@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/bootstrap/css/dashboard.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/static/bootstrap/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/static/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Log Analysis</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Menu</a></li>
+            <li><a href="#container">Total_pv</a></li>
+            <li><a href="#uv">Total_uv</a></li>
+            <li><a href="#cache_type">Cache_type</a></li>
+            <li><a href="#http_code">Http_code</a></li>
+            <li><a href="#response_size">Response_size_sum</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Show Graphics</h1>
+
+          <div class="row placeholders">
+          <!--pv -->
+	<div id="container" style="height:500px"></div>
+	<!--pv -->
+	<br>
+	<hr>
+	<br>
+	<!--uv -->
+	<div id="uv" style="height:500px"></div>
+	<!--uv -->
+	<br>
+	<hr>
+	<br>
+	<!--cache_type-->
+	<div id="cache_type" style="height:500px"></div>
+	<!--cache_type -->
+	<br>	
+	<hr>
+	<br>
+	<!--http_code -->
+	<div id="http_code" style="height:500px"></div>
+	<!--http_code -->
+	<br>
+	<hr>
+	<br>
+	<!--response_size -->
+	<div id="response_size" style="height:500px"></div>
+	<!--response_size -->
+	<!--top url -->
+	<!--<div id="top_url" style="height:500px"></div>-->
+	<!--top url -->
+
+	</div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--    <script src="/static/bootstrap/js/jquery.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/bootstrap/js/docs.min.js"></script>
+    <script src="/static/highchart/js/highstock.js"></script>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<script src="/static/highchart/js/highstock.js"></script>
+<script src="/static/highchart/js/modules/exporting.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+-->
+
+  <script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+  <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+  <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+//	$.getJSON('/get_squid_log/', {name: 'haha', type:'ddd'}, function(callback){
+//	console.log(callback);
+	$.getJSON("/get_log_data/", function(callback){
+
+  //alert("JSON Data: " + callback.column_g['time_list'][0]);
+   //alert("JSON Data: " + callback.column_g.date_list);
+
+
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Total PV'
+        },
+        subtitle: {
+            text: 'author:hbssliulei'
+        },
+        xAxis: {
+            categories: callback.ip_hour_dic.time_list
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Rainfall'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Total PV',
+            data:callback.ip_hour_dic.data_list
+        }]
+    });
+});				
+
+
+
+
+	$(function () {
+    $('#uv').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        title: {
+            text: 'UV'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    color: '#000000',
+                    connectorColor: '#000000',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'uv:',
+            data: callback.uv 
+        }]
+    });
+});				
+	
+
+
+
+
+
+
+
+$(function () {
+    $('#cache_type').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Cache Type'
+        },
+        subtitle: {
+            text: 'author:hbssliulei'
+        },
+        xAxis: {
+            categories: callback.cache_type_list
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Rainfall'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Cache Type',
+            data:callback.cache_data_list
+        }]
+    });
+});				
+
+
+
+$(function () {
+    $('#http_code').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'HTTP Code'
+        },
+        subtitle: {
+            text: 'author:hbssliulei'
+        },
+        xAxis: {
+            categories: callback.http_code_list
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Rainfall'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Http code',
+            data:callback.http_data_list
+        }]
+    });
+});				
+
+
+
+$(function () {
+    $('#response_size').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Response_size_sum(GB)'
+        },
+        subtitle: {
+            text: 'author:hbssliulei'
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Rainfall (mm)'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} GB</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Response_size',
+            data:callback.response_size_sum
+        }]
+    });
+});				
+
+
+
+});
+})
+
+//alert(callback.column_g.data_list);
+</script>
+
+  </body>
+</html>
